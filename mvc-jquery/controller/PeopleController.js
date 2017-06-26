@@ -3,21 +3,6 @@ class PeopleController {
         let _self = this;
         this.model = model;
         this.view = view;
-
-        $('#showAllRecords').click(function () {
-            _self.getPeople();
-        })
-
-        $('#add').click(function () {
-            _self.view.addPersonView();
-        });
-
-
-        $('#userData').submit(function (event) {
-            event.preventDefault();
-            let userData = {title: $('#title').val(), author: $('#author').val(), content: $('#content').val()};
-            _self.addPerson(userData);
-        });
     }
 
     getPeople() {

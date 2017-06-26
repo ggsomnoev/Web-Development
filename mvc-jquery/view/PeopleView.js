@@ -1,15 +1,5 @@
 class PeopleView {
-    constructor() {
-        let showAllBtn = $('<button id="showAllRecords">Show all</button>');
-        let addBtn = $('<button id="add">Add</button>');
-
-        $('#wrapper').append(showAllBtn);
-        $('#wrapper').append(addBtn);
-        $('#wrapper').append($('<div id="content"></div>'));
-    }
-
     getPeople(data) {
-        $('#content').empty();
         let table = $(`
                 <table>
                     <thead>
@@ -18,6 +8,8 @@ class PeopleView {
                             <th>Title</th>
                             <th>Author</th>
                             <th>Content</th>
+                            <th>_Id</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                 </table>`)
@@ -29,18 +21,33 @@ class PeopleView {
                     <td>${person.title}</td>
                     <td>${person.author}</td>
                     <td>${person.content}</td>
+                    <td>${person._id}</td>
+                    <td><button id=${person._id} class="detailed-button">View Details</button></td>
                 </tr>`));
         });
         $('#content').append(table.append(tbody));
+
+        Sammy(function () {
+            let _self = this;
+
+            $('.detailed-button').click(function (ev) {
+                _self.trigger('viewDetailed', $(this).attr('id'));//this reference to detailed-button
+            });
+        });
     }
 
     getPerson(data) {
-        console.log(data);
-        //draw specific person
+        let html = $(`
+            <div>
+                <b>Title: </b>${data.title}
+                <b>Author: </b>${data.author}
+                <b>Content: </b>${data.content}
+            </div>
+        `);
+        $('#content').append(html);
     }
 
     addPersonView() {
-        $('#content').empty();
         let personal = $(`
             <form id="userData">
                 <label>Title</label>
@@ -48,7 +55,7 @@ class PeopleView {
                 <label>Author</label>
                 <input id="author" type="text" /><br/>
                 <label>Content</label>
-                <textarea id="content" rows="10" cols="40"></textarea><br/>
+                <textarea id="cont" rows="10" cols="40"></textarea><br/>
                 <button type="submit">Add</button>
             </form>`);
 
